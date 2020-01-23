@@ -8,7 +8,7 @@ public class GuessMovie {
     ArrayList<String> films;
     String selectedFilm;
     String[] placeholder;
-    ArrayList<Character> wrongLetters = new ArrayList<Character>();
+    ArrayList<Character> wrongLetters = new ArrayList<>();
     boolean hasWon = false;
 
     public static void main(String[] args) {
@@ -46,7 +46,7 @@ public class GuessMovie {
                 for (int i = 0; i < this.placeholder.length; i++) {
                     if (this.selectedFilm.charAt(i) == letter) {
                         this.placeholder[i] = Character.toString(letter);
-                    } else if (this.placeholder[i] == "_") {
+                    } else if (this.placeholder[i].equals("_")) {
                         this.hasWon = false;
                     }
                 }
@@ -58,9 +58,11 @@ public class GuessMovie {
                 continue;
             }
 
-            this.wrongLetters.add(letter);
+            if (!this.wrongLetters.contains(letter)) {// this "if check" could be avoided by using Set type for this.wrongLetters
+                this.wrongLetters.add(letter);
+                chances--;
+            }
             this.printWrongLetters();
-            chances--;
             this.printTurnsLeft(chances);
         }
 
@@ -81,12 +83,11 @@ public class GuessMovie {
                     "You have guessed %d wrong letter%s: %s",
                     this.wrongLetters.size(),
                     this.wrongLetters.size() > 1 ? "s" : "",
-                    String.join(", ", sb.toString()),
-                    10 - this.wrongLetters.size()
+                    String.join(", ", sb.toString())
 
             ));
         } else {
-            System.out.println(String.format("You have guessed 0 wrong letter."));
+            System.out.println("You have guessed 0 wrong letter.");
         }
     }
 
